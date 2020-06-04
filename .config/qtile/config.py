@@ -207,110 +207,130 @@ layouts = [
     layout.Stack(num_stacks=3, **layout_theme)
 ]
 
-widget_defaults = dict(
-    font="ubuntu mono",
-    fontsize=14,
-    padding=3,
-)
-extension_defaults = widget_defaults.copy()
+# widget_defaults = dict(
+#     font="ubuntu mono",
+#     fontsize=14,
+#     padding=3,
+# )
+# extension_defaults = widget_defaults.copy()
 
 def init_widgets():
     widgetList = [
             widget.GroupBox(
                 font = "Ubuntu Mono",
+                fontsize=16,
                 active = colours["fg"],
                 inactive = colours["bg3"],
                 background = colours["bg"]
                 ),
             widget.Prompt(
+                fontsize=16,
                 foreground = colours["fg"],
                 background = colours["bg"]
                 ),
             widget.WindowName(
+                fontsize=16,
                 foreground = colours["fg"],
                 background = colours["bg"]
                 ),
             widget.Systray(
+                fontsize=16,
                 foreground = colours["fg"],
                 background = colours["bg"]
                 ),
             widget.CurrentLayoutIcon(
+                fontsize=16,
                 custom_icon_paths=[os.path.expanduser("~/.config/qtile/icons")],
                 foreground = colours["fg"],
                 background = colours["bg"],
                 scale=0.7
                 ),
             widget.Sep(
+                fontsize=16,
                 foreground=colours["bg3"],
                 background=colours["bg"],
                 ),
             widget.Net(
+                fontsize=16,
+                font = "Ubuntu Mono",
                 interface ="wlp2s0",
                 foreground=colours["fg"],
                 background=colours["bg"],
                 ),
             widget.Sep(
+                fontsize=16,
                 foreground=colours["bg"],
                 background=colours["bg"],
                 ),
             widget.TextBox(
                 # CPU
+                fontsize=16,
                 text=" ",
                 foreground=colours["d_blue"],
                 background=colours["bg"],
                 padding = 0,
                 ),
             widget.CPUGraph(
+                fontsize=16,
                 line_width = 2,
                 graph_color = colours["d_blue"],
                 foreground=colours["d_blue"],
                 background=colours["bg"],
                 ),
             widget.Sep(
+                fontsize=16,
                 foreground=colours["bg"],
                 background=colours["bg"],
                 ),
             widget.TextBox(
                 # RAM
+                fontsize=16,
                 text=" ",
                 foreground=colours["d_purple"],
                 background=colours["bg"],
                 padding = 0,
                 ),
             widget.MemoryGraph(
+                fontsize=16,
                 line_width = 2,
                 graph_color = colours["d_purple"],
                 foreground=colours["d_purple"],
                 background=colours["bg"],
                 ),
             widget.Sep(
+                fontsize=16,
                 foreground=colours["bg"],
                 background=colours["bg"],
                 ),
             widget.TextBox(
                 # Volume
+                fontsize=16,
                 text=" ",
                 foreground=colours["d_gray"],
                 background=colours["bg1"],
                 padding = 0,
                 ),
             widget.Volume(
+                fontsize=16,
                 font="Ubuntu Mono Bold",
                 foreground = colours["d_gray"],
                 background = colours["bg1"]
                 ),
             widget.Sep(
+                fontsize=16,
                 foreground=colours["bg1"],
                 background=colours["bg1"],
                 ),
             widget.TextBox(
                 # Battery
+                fontsize=16,
                 text=" ",
                 foreground=colours["bg"],
                 background=colours["bg_gray"],
                 padding = 0,
                 ),
             widget.Battery(
+                fontsize=16,
                 charge_char = "",
                 discharge_char = "",
                 empty_char = "",
@@ -319,10 +339,12 @@ def init_widgets():
                 background = colours["bg_gray"]
                 ),
             widget.Sep(
+                fontsize=16,
                 foreground=colours["bg_gray"],
                 background=colours["bg_gray"],
                 ),
             widget.Clock(
+                fontsize=16,
                 format='%Y-%m-%d %a %I:%M %p',
                 font="Ubuntu Mono Bold",
                 foreground = colours["bg"],
