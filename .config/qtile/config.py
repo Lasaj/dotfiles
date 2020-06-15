@@ -1,29 +1,3 @@
-# Copyright (c) 2010 Aldo Cortesi
-# Copyright (c) 2010, 2014 dequis
-# Copyright (c) 2012 Randall Ma
-# Copyright (c) 2012-2014 Tycho Andersen
-# Copyright (c) 2012 Craig Barnes
-# Copyright (c) 2013 horsik
-# Copyright (c) 2013 Tao Sauvage
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
 import os
 import subprocess
 from libqtile import hook
@@ -99,24 +73,26 @@ keys = [
     Key([mod, "shift"], "x", 
         lazy.spawn("i3lock -c 000000"),
         lazy.spawn("systemctl suspend")),
-
-
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "r", lazy.spawncmd()),
 
     # Other launchers
-    Key([mod], "d", lazy.spawn("dmenu_run -p 'Run: '")),
+    Key([mod], "d", 
+        lazy.spawn("dmenu_run -fn 'ubuntu mono' -nb '#282828' "
+                   "-nf '#ebdbb2' -sb '#d65d0e' -sf '#282828' "
+                   "-p 'Run: '")),
     Key([mod], "b", lazy.spawn("firefox")),
-    Key([mod], "e", lazy.spawn("pcmanfm")),
+    Key([mod], "e", lazy.spawn("nautilus")),
     Key([mod], "c", lazy.spawn("clion")),
+    Key([mod, "shift"], "p", lazy.spawn("gnome-screenshot -i")),
 
     # Laptop keys
     Key([], "XF86AudioRaiseVolume",
-        lazy.spawn("amixer sset Master 2dB+")
+        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ +5%")
     ),
     Key([], "XF86AudioLowerVolume",
-        lazy.spawn("amixer sset Master 2dB-")
+        lazy.spawn("pactl set-sink-volume @DEFAULT_SINK@ -5%")
     ),
     Key([], "XF86AudioMute",
         lazy.spawn("amixer -D pulse set Master toggle")
@@ -127,15 +103,15 @@ keys = [
     Key([], "XF86MonBrightnessDown", lazy.spawn("light -U 5")),
 ]
 
-group_names = [("Laptop", {'layout': 'monadtall'}),
-               ("Desktop", {'layout': 'monadtall'}),
-               ("Email", {'layout': 'monadtall'}),
-               ("Code", {'layout': 'monadtall'}),
-               ("5", {'layout': 'monadtall'}),
-               ("6", {'layout': 'monadtall'}),
-               ("7", {'layout': 'monadtall'}),
-               ("8", {'layout': 'monadtall'}),
-               ("Volume", {'layout': 'monadtall'})]
+group_names = [("LTOP", {'layout': 'monadtall'}),
+               ("DESK", {'layout': 'monadtall'}),
+               ("MAIL", {'layout': 'monadtall'}),
+               ("CODE", {'layout': 'monadtall'}),
+               ("#5", {'layout': 'monadtall'}),
+               ("#6", {'layout': 'monadtall'}),
+               ("#7", {'layout': 'monadtall'}),
+               ("#8", {'layout': 'monadtall'}),
+               ("VOL", {'layout': 'monadtall'})]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_names]
 
@@ -144,6 +120,10 @@ for i, (name, kwargs) in enumerate(group_names, 1):
     keys.append(Key([mod], str(i), lazy.group[name].toscreen()))        
     # Send current window to another group  
     keys.append(Key([mod, "shift"], str(i), lazy.window.togroup(name))) 
+    # Send current window to another group and follow it
+    keys.append(Key([mod, "control"], str(i), 
+        lazy.window.togroup(name),
+        lazy.group[name].toscreen())) 
 
 ##### DEFAULT THEME SETTINGS FOR LAYOUTS #####
 layout_theme = {"border_width": 2,
@@ -152,19 +132,7 @@ layout_theme = {"border_width": 2,
                 "border_normal": "1D2330"
                 }
 
-
 ##### COLORS #####
-#colors = [["#0d1a26", "#132639"], # panel background
-#          ["#434758", "#434758"], # background for current screen tab
-#          ["#ccf5ff", "#ccf5ff"], # font color for group names
-#          ["#cc99ff", "#cc99ff"], # font color for alternate names
-#          ["#ff5555", "#ff5555"], # border line color for current tab
-#          ["#8d62a9", "#8d62a9"], # border line color for other tab and odd widgets
-#          ["#668bd7", "#668bd7"], # color for the even widgets
-#          ["#e1acff", "#e1acff"], # window name
-#          ["#545869", "#545869"] # seperate
-#          ]
-
 # gruvbox based
 colours = {
         # dull
@@ -199,12 +167,12 @@ colours = {
         "fg4" : "#a89984"
         }
 
-
 ##### THE LAYOUTS #####
 layouts = [
-    layout.Max(),
     layout.MonadTall(**layout_theme),
-    layout.Stack(num_stacks=3, **layout_theme)
+    layout.Max(),
+    layout.Stack(num_stacks=3, **layout_theme),
+    layout.Columns(num_columns=3, **layout_theme)
 ]
 
 # widget_defaults = dict(
@@ -219,12 +187,16 @@ def init_widgets():
             widget.GroupBox(
                 font = "Ubuntu Mono",
                 fontsize=16,
+                rounded = False,
+                highlight_method = "block",
+                highlight_color = colours["bg1"],
                 active = colours["fg"],
                 inactive = colours["bg3"],
                 background = colours["bg"]
                 ),
             widget.Prompt(
-                fontsize=16,
+                font = "Ubuntu Mono",
+                fontsize=14,
                 foreground = colours["fg"],
                 background = colours["bg"]
                 ),
@@ -304,33 +276,33 @@ def init_widgets():
                 ),
             widget.TextBox(
                 # Volume
-                fontsize=16,
+                fontsize=18,
                 text=" ",
                 foreground=colours["d_gray"],
                 background=colours["bg1"],
                 padding = 0,
                 ),
             widget.Volume(
-                fontsize=16,
+                fontsize=18,
                 font="Ubuntu Mono Bold",
                 foreground = colours["d_gray"],
                 background = colours["bg1"]
                 ),
             widget.Sep(
-                fontsize=16,
+                fontsize=18,
                 foreground=colours["bg1"],
                 background=colours["bg1"],
                 ),
             widget.TextBox(
                 # Battery
-                fontsize=16,
+                fontsize=18,
                 text=" ",
                 foreground=colours["bg"],
                 background=colours["bg_gray"],
                 padding = 0,
                 ),
             widget.Battery(
-                fontsize=16,
+                fontsize=18,
                 charge_char = "",
                 discharge_char = "",
                 empty_char = "",
@@ -339,12 +311,12 @@ def init_widgets():
                 background = colours["bg_gray"]
                 ),
             widget.Sep(
-                fontsize=16,
+                fontsize=18,
                 foreground=colours["bg_gray"],
                 background=colours["bg_gray"],
                 ),
             widget.Clock(
-                fontsize=16,
+                fontsize=18,
                 format='%Y-%m-%d %a %I:%M %p',
                 font="Ubuntu Mono Bold",
                 foreground = colours["bg"],
@@ -353,44 +325,20 @@ def init_widgets():
             ]
     return widgetList
 
-widgets = [
-    widget.GroupBox(),
-    widget.Prompt(),
-    widget.WindowName(),
-    widget.Systray(),
-    widget.Volume(),
-    widget.Battery(),
-    widget.Net(),
-    widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-        ]
-
-foo = init_widgets()
-foo2 = init_widgets()
+wigdetsScreen1 = init_widgets()
+wigdetsScreen2 = init_widgets()
 
 screens = [
     Screen(
         top=bar.Bar(
-            foo
-#            [widget.GroupBox(),
-#             widget.Prompt(),
-#             widget.WindowName(),
-#             widget.Systray(),
-#             widget.Volume(),
-#             widget.Battery(),
-#             widget.Net(),
-#             widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-#             ]
-            ,
-            opacity=0.95, size=20,
-            #opacity=0.9,
-            #24,
+            wigdetsScreen1,
+            opacity=0.9, size=24,
         ),
     ),
     Screen(
         top=bar.Bar(
-            foo2
-            ,
-            24,
+            wigdetsScreen2,
+            opacity=0.9, size=24,
         ),
     ),
 ]
