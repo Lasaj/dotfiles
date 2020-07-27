@@ -1,6 +1,6 @@
 #!/bin/sh
 nitrogen --restore &
-compton &
+picom &
 redshift-gtk &
 nm-applet &
 pasystray &

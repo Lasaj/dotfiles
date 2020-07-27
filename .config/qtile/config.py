@@ -10,6 +10,7 @@ from typing import List  # noqa: F401
 mod = "mod4"
 myTerm = "gnome-terminal"
 myConfig = "/home/rick/.config/qtile/config.py"
+myIDE = "intellij-idea-ultimate"
 
 keys = [
     # Switch between windows in current stack pane
@@ -41,7 +42,7 @@ keys = [
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
-    Key([mod], "Return", lazy.spawn("gnome-terminal")),
+    Key([mod], "Return", lazy.spawn(myTerm)),
 
     # Switch between monitors
     Key([mod], "comma", lazy.to_screen(0)),
@@ -83,9 +84,9 @@ keys = [
                    "-nf '#ebdbb2' -sb '#d65d0e' -sf '#282828' "
                    "-p 'Run: '")),
     Key([mod], "b", lazy.spawn("firefox")),
-    Key([mod], "e", lazy.spawn("nautilus")),
-    Key([mod], "c", lazy.spawn("clion")),
-    Key([mod, "shift"], "p", lazy.spawn("gnome-screenshot -i")),
+    Key([mod], "e", lazy.spawn("thunar")),
+    Key([mod], "c", lazy.spawn(myIDE)),
+    Key([mod, "shift"], "p", lazy.spawn("xfce4-screenshooter")),
 
     # Laptop keys
     Key([], "XF86AudioRaiseVolume",
@@ -171,19 +172,23 @@ colours = {
 layouts = [
     layout.MonadTall(**layout_theme),
     layout.Max(),
-    layout.Stack(num_stacks=3, **layout_theme),
     layout.Columns(num_columns=3, **layout_theme)
 ]
 
-# widget_defaults = dict(
-#     font="ubuntu mono",
-#     fontsize=14,
-#     padding=3,
-# )
-# extension_defaults = widget_defaults.copy()
+# Mouse Callbacks
+def open_calendar(qtile):
+    qtile.cmd_spawn("gnome-calendar")
+
+def shutdown_menu(qtile):
+    qtile.cmd_spawn("/home/rick/.config/qtile/xmenu.sh")
 
 def init_widgets():
     widgetList = [
+            widget.Image(
+                filename = "~/.config/qtile/icons/Qtile.png",
+                background = colours["bg3"],
+                mouse_callbacks = {'Button1': shutdown_menu}
+                ),
             widget.GroupBox(
                 font = "Ubuntu Mono",
                 fontsize=16,
@@ -201,13 +206,11 @@ def init_widgets():
                 background = colours["bg"]
                 ),
             widget.WindowName(
-                fontsize=16,
+                fontsize=14,
                 foreground = colours["fg"],
                 background = colours["bg"]
                 ),
             widget.Systray(
-                fontsize=16,
-                foreground = colours["fg"],
                 background = colours["bg"]
                 ),
             widget.CurrentLayoutIcon(
@@ -225,13 +228,14 @@ def init_widgets():
             widget.Net(
                 fontsize=16,
                 font = "Ubuntu Mono",
-                interface ="wlp2s0",
+                format = "{down} ↓↑ {up}",
+                interface ="wlan0",
                 foreground=colours["fg"],
                 background=colours["bg"],
                 ),
             widget.Sep(
                 fontsize=16,
-                foreground=colours["bg"],
+                foreground=colours["bg3"],
                 background=colours["bg"],
                 ),
             widget.TextBox(
@@ -303,6 +307,7 @@ def init_widgets():
                 ),
             widget.Battery(
                 fontsize=18,
+                format = "{char} {percent:2.0%} {hour:d}:{min:02d}",
                 charge_char = "",
                 discharge_char = "",
                 empty_char = "",
@@ -320,7 +325,8 @@ def init_widgets():
                 format='%Y-%m-%d %a %I:%M %p',
                 font="Ubuntu Mono Bold",
                 foreground = colours["bg"],
-                background = colours["bg_orange"]
+                background = colours["bg_orange"],
+                mouse_callbacks = {'Button1': open_calendar}
                 ),
             ]
     return widgetList
