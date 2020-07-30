@@ -4,5 +4,6 @@ picom &
 redshift-gtk &
 nm-applet &
 pasystray &
-xautolock -time 10 -locker /home/rick/.config/qtile/suspend.sh &
+xfce4-screensaver &
+xfce4-power-manager &
 
