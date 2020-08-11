@@ -42,7 +42,6 @@ keys = [
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
     Key([mod, "shift"], "Return", lazy.layout.toggle_split()),
-    Key([mod], "Return", lazy.spawn(myTerm)),
 
     # Switch between monitors
     Key([mod], "comma", lazy.to_screen(0)),
@@ -71,14 +70,16 @@ keys = [
         lazy.restart()),
 
     # Suspend
+    Key([mod, "control"], "x", 
+        lazy.spawn("/home/rick/.config/qtile/toggle_suspend.sh")),
     Key([mod, "shift"], "x", 
-        lazy.spawn("i3lock -c 000000"),
-        lazy.spawn("systemctl suspend")),
+        lazy.spawn("/home/rick/.config/qtile/suspend_now.sh")),
     Key([mod, "control"], "r", lazy.restart()),
     Key([mod, "control"], "q", lazy.shutdown()),
     Key([mod], "r", lazy.spawncmd()),
 
     # Other launchers
+    Key([mod], "Return", lazy.spawn(myTerm)),
     Key([mod], "d", 
         lazy.spawn("dmenu_run -fn 'ubuntu mono' -nb '#282828' "
                    "-nf '#ebdbb2' -sb '#d65d0e' -sf '#282828' "
@@ -333,6 +334,7 @@ def init_widgets():
 
 wigdetsScreen1 = init_widgets()
 wigdetsScreen2 = init_widgets()
+del wigdetsScreen2[4]
 
 screens = [
     Screen(
