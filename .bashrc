@@ -215,7 +215,7 @@ alias ssn="sudo shutdown now"
 alias sr="sudo reboot"
 
 alias matlab="env MESA_LOADER_DRIVER_OVERRIDE=i965 matlab -desktop -nosplash &"
-alias buuni="sudo cp -r /home/rick/Documents/BCompSc /home/rick/NAS/Rick/Documents/BCompSc"
+alias buuni='rsync -aPzv --delete --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ /home/rick/Documents/BCompSc/ rick@192.168.86.3:/volume1/Rick/Documents/BCompSc/Current'
 
 alias dotgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
