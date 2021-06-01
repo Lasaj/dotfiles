@@ -15,7 +15,7 @@ mod = "mod4"
 mod1 = "alt"
 mod2 = "control"
 home = os.path.expanduser('~')
-
+my_term = "alacritty"
 
 @lazy.function
 def window_to_prev_group(qtile):
@@ -39,22 +39,23 @@ keys = [
 
     Key([mod], "b", lazy.spawn('firefox')),
     Key([mod], "e", lazy.spawn('nautilus')),
-    Key([mod], "c", lazy.spawn('intellij-idea-ultimate-edition')),
+    Key([mod], "c", lazy.spawn('code')),
     Key([mod], "d", lazy.spawn('rofi -show drun')),
     Key([mod], "f", lazy.window.toggle_fullscreen()),
+    Key([mod], "i", lazy.spawn('intellij-idea-ultimate-edition')),
     Key([mod], "m", lazy.spawn('mailspring')),
     Key([mod], "p", lazy.spawn('pycharm')),
     Key([mod], "q", lazy.window.kill()),
-    Key([mod], "r", lazy.spawn('rstudio-bin')),
-    Key([mod], "t", lazy.spawn('termite')),
+    Key([mod], "r", lazy.spawn('rstudio-daily-bin')),
+    Key([mod], "t", lazy.spawn(my_term)),
     Key([mod], "v", lazy.spawn('pavucontrol')),
     Key([mod], "w", lazy.spawn('vivaldi-stable')),
     Key([mod], "x", lazy.spawn('arcolinux-logout')),
     Key([mod], "y", lazy.spawn('/opt/YoutubeMusic/YoutubeMusic')),
     Key([mod], "z", lazy.spawn('zoom')),
     Key([mod], "Escape", lazy.spawn('xkill')),
-    Key([mod], "Return", lazy.spawn('termite')),
-    Key([mod], "KP_Enter", lazy.spawn('termite')),
+    Key([mod], "Return", lazy.spawn(my_term)),
+    Key([mod], "KP_Enter", lazy.spawn(my_term)),
     Key([mod], "F1", lazy.spawn('vivaldi-stable')),
     Key([mod], "F2", lazy.spawn('atom')),
     Key([mod], "F3", lazy.spawn('inkscape')),
@@ -98,11 +99,11 @@ keys = [
     # Key(["mod1", "control"], "p", lazy.spawn('pamac-manager')),
     # Key(["mod1", "control"], "r", lazy.spawn('rofi-theme-selector')),
     # Key(["mod1", "control"], "s", lazy.spawn('spotify')),
-    # Key(["mod1", "control"], "t", lazy.spawn('termite')),
+    # Key(["mod1", "control"], "t", lazy.spawn(my_term)),
     # Key(["mod1", "control"], "u", lazy.spawn('pavucontrol')),
     # Key(["mod1", "control"], "v", lazy.spawn('vivaldi-stable')),
     # Key(["mod1", "control"], "w", lazy.spawn('arcolinux-welcome-app')),
-    # Key(["mod1", "control"], "Return", lazy.spawn('termite')),
+    # Key(["mod1", "control"], "Return", lazy.spawn(my_term)),
 
 # ALT + ... KEYS
 
@@ -248,7 +249,8 @@ keys = [
         lazy.spawn("/home/rick/.config/qtile/scripts/desktop.sh"),
         lazy.restart()),
     Key([mod, "shift"], "n", 
-        lazy.spawn("/home/rick/.config/qtile/scripts/laptop.sh")),
+        lazy.spawn("/home/rick/.config/qtile/scripts/laptop.sh"),
+        lazy.restart()),
     Key([mod, "shift"], "b", 
         lazy.spawn("nitrogen --restore"),
         lazy.restart()),
@@ -371,17 +373,17 @@ def init_widgets_list():
                         foreground = colours[5],
                         background = colours[1]
                         ),
-               # widget.CurrentLayout(
-               #          font = "Noto Sans Bold",
-               #          foreground = colours[5],
-               #          background = colours[1]
-               #          ),
-               # widget.Sep(
-               #          linewidth = 1,
-               #          padding = 10,
-               #          foreground = colours[2],
-               #          background = colours[1]
-               #          ),
+               widget.CurrentLayout(
+                        font = "Noto Sans Bold",
+                        foreground = colours[5],
+                        background = colours[1]
+                        ),
+               widget.Sep(
+                        linewidth = 1,
+                        padding = 10,
+                        foreground = colours[2],
+                        background = colours[1]
+                        ),
                widget.WindowName(font="Noto Sans",
                         fontsize = 12,
                         foreground = colours[5],
@@ -480,14 +482,15 @@ def init_widgets_list():
                         fontsize=16
                         ),
                widget.CPUGraph(
-                        border_color = colours[5],
+                        border_color = colours[9],
                         fill_color = colours[7],
                         graph_color = colours[7],
                         background=colours[1],
                         border_width = 1,
-                        line_width = 1,
+                        line_width = 2,
                         core = "all",
-                        type = "box"
+                        type = "line",
+                        samples=20
                         ),
                widget.Sep(
                         linewidth = 1,
@@ -503,14 +506,17 @@ def init_widgets_list():
                         padding = 0,
                         fontsize=16
                         ),
-               widget.Memory(
-                        font="Noto Sans",
-                        format = '{MemUsed}M/{MemTotal}M',
-                        update_interval = 1,
-                        fontsize = 12,
-                        foreground = colours[5],
-                        background = colours[1],
-                       ),
+               widget.MemoryGraph(
+                        border_color = colours[9],
+                        fill_color = colours[7],
+                        graph_color = colours[8],
+                        background=colours[1],
+                        border_width = 1,
+                        line_width = 2,
+                        core = "all",
+                        type = "line",
+                        samples=20
+                        ),
                widget.Sep(
                         linewidth = 1,
                         padding = 10,
