@@ -331,7 +331,9 @@ def init_colours():
             ["#cd1f3f", "#cd1f3f"], # color 6
             ["#458588", "#458588"], # color 7 gruvbox blue
             ["#d65d0e", "#d65d0e"], # color 8 gruvbox orange
-            ["#A89984", "#A89984"]] # color 9 gruvbox fg4
+            ["#A89984", "#A89984"], # color 9 gruvbox fg4
+            ["#2b5355", "#2b5355"], # color 10 gruvbox dark blue
+            ["#783508", "#783508"]] # color 11 gruvbox dark orange
 
 
 colours = init_colours()
@@ -460,7 +462,7 @@ def init_widgets_list():
                #          fontsize = 12,
                #          foreground = colours[5],
                #          background = colours[1],
-	       #          ),
+	           #          ),
                widget.BitcoinTicker(
                         currency = "AUD",
                         update_interval = 60,
@@ -483,13 +485,13 @@ def init_widgets_list():
                         ),
                widget.CPUGraph(
                         border_color = colours[9],
-                        fill_color = colours[7],
+                        fill_color = colours[10],
                         graph_color = colours[7],
                         background=colours[1],
-                        border_width = 1,
+                        border_width = 0,
                         line_width = 2,
                         core = "all",
-                        type = "line",
+                        type = "linefill",
                         samples=20
                         ),
                widget.Sep(
@@ -508,13 +510,13 @@ def init_widgets_list():
                         ),
                widget.MemoryGraph(
                         border_color = colours[9],
-                        fill_color = colours[7],
+                        fill_color = colours[11],
                         graph_color = colours[8],
                         background=colours[1],
-                        border_width = 1,
+                        border_width = 0,
                         line_width = 2,
                         core = "all",
-                        type = "line",
+                        type = "linefill",
                         samples=20
                         ),
                widget.Sep(

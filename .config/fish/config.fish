@@ -18,13 +18,13 @@ alias l='ls'
 alias l.="ls -A | egrep '^\.'"
 
 alias uni="cd /home/rick/Documents/BCompSc"
-alias buuni="sudo cp -r /home/rick/Documents/BCompSc /home/rick/NAS/Rick/Documents/BCompSc"
+# alias buuni="sudo cp -r /home/rick/Documents/BCompSc /home/rick/NAS/Rick/Documents/BCompSc"
+alias buuni='rsync -aPzv --delete --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.3:/volume1/Rick/Documents/BCompSc/Current'
 
 alias upall="paru -Syu --noconfirm"
 alias pacman='sudo pacman --color auto'
 alias update='sudo pacman -Syyu'
 
 alias dotgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias buuni='rsync -aPzv --delete --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.3:/volume1/Rick/Documents/BCompSc/Current'
-alias uni='cd /home/rick/Documents/BCompSc'
 
+alias moss='TERM=xterm-256color ssh s4012681@remote.labs.eait.uq.edu.au'
