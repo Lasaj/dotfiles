@@ -43,6 +43,7 @@ keys = [
     Key([mod], "d", lazy.spawn('rofi -show drun')),
     Key([mod], "f", lazy.window.toggle_fullscreen()),
     Key([mod], "i", lazy.spawn('intellij-idea-ultimate-edition')),
+    Key([mod], "l", lazy.spawn('Clion')),
     Key([mod], "m", lazy.spawn('mailspring')),
     Key([mod], "p", lazy.spawn('pycharm')),
     Key([mod], "q", lazy.window.kill()),
@@ -73,7 +74,7 @@ keys = [
 
     Key([mod, "shift"], "Return", lazy.spawn('thunar')),
     Key([mod, "shift"], "d", lazy.spawn("dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'")),
-    Key([mod, "shift"], "p", lazy.spawn('xfce4-screenshooter')),
+    Key([mod, "shift"], "p", lazy.spawn('gnome-screenshot -i')),
     Key([mod, "shift"], "q", lazy.window.kill()),
     Key([mod, "shift"], "r", lazy.restart()),
     Key([mod, "shift"], "s", lazy.spawn('/home/rick/.config/qtile/scripts/toggle_suspend.sh')),
@@ -463,12 +464,12 @@ def init_widgets_list():
                #          foreground = colours[5],
                #          background = colours[1],
 	           #          ),
-               widget.BitcoinTicker(
-                        currency = "AUD",
-                        update_interval = 60,
-                        foreground = colours[5],
-                        background = colours[1]
-                        ),
+#               widget.BitcoinTicker(
+#                        currency = "AUD",
+#                        update_interval = 60,
+#                        foreground = colours[5],
+#                        background = colours[1]
+#                        ),
                widget.Sep(
                         linewidth = 1,
                         padding = 10,
@@ -671,6 +672,7 @@ floating_layout = layout.Floating(float_rules=[
     {'wmclass': 'Galculator'},
     {'wmclass': 'arcolinux-logout'},
     {'wmclass': 'xfce4-terminal'},
+    {'wmclass': 'gnome-screenshot'},
     {'wname': 'branchdialog'},
     {'wname': 'Open File'},
     {'wname': 'pinentry'},
