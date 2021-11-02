@@ -19,7 +19,7 @@ import qualified Codec.Binary.UTF8.String as UTF8
 import XMonad.Layout.Spacing
 import XMonad.Layout.Gaps
 import XMonad.Layout.ResizableTile
-import XMonad.Layout.NoBorders 
+---import XMonad.Layout.NoBorders
 import XMonad.Layout.Fullscreen (fullscreenFull)
 import XMonad.Layout.Cross(simpleCross)
 import XMonad.Layout.Spiral(spiral)
@@ -39,10 +39,6 @@ import Control.Monad (liftM2)
 import qualified DBus as D
 import qualified DBus.Client as D
 
-import Control.Monad (forM_, join, liftM, when, (>=>))
-import Data.Maybe (maybeToList)
-
-myTerm = "alacritty"
 
 myStartupHook = do
     spawn "$HOME/.xmonad/scripts/autostart.sh"
@@ -77,7 +73,6 @@ myManageHook = composeAll . concat $
     , [title =? t --> doFloat | t <- myTFloats]
     , [resource =? r --> doFloat | r <- myRFloats]
     , [resource =? i --> doIgnore | i <- myIgnores]
-    , [isFullscreen --> doFullFloat]
     -- , [(className =? x <||> title =? x <||> resource =? x) --> doShiftAndGo "\61612" | x <- my1Shifts]
     -- , [(className =? x <||> title =? x <||> resource =? x) --> doShiftAndGo "\61899" | x <- my2Shifts]
     -- , [(className =? x <||> title =? x <||> resource =? x) --> doShiftAndGo "\61947" | x <- my3Shifts]
@@ -91,7 +86,7 @@ myManageHook = composeAll . concat $
     ]
     where
     -- doShiftAndGo = doF . liftM2 (.) W.greedyView W.shift
-    myCFloats = ["Arandr", "Arcolinux-calamares-tool.py", "Arcolinux-tweak-tool.py", "Arcolinux-welcome-app.py", "Galculator", "feh", "mpv", "Xfce4-terminal", "arcolinux-logout"]
+    myCFloats = ["Arandr", "Arcolinux-calamares-tool.py", "Arcolinux-tweak-tool.py", "Arcolinux-welcome-app.py", "Galculator", "feh", "mpv", "Xfce4-terminal"]
     myTFloats = ["Downloads", "Save As..."]
     myRFloats = []
     myIgnores = ["desktop_window"]
@@ -109,13 +104,12 @@ myManageHook = composeAll . concat $
 
 
 
-myLayout = spacingRaw True (Border 0 5 5 5) True (Border 5 5 5 5) True $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ tiled ||| spiral (6/7)  ||| ThreeColMid 1 (3/100) (1/2) ||| full
+myLayout = spacingRaw True (Border 0 5 5 5) True (Border 5 5 5 5) True $ avoidStruts $ mkToggle (NBFULL ?? NOBORDERS ?? EOT) $ tiled ||| Mirror tiled ||| spiral (6/7)  ||| ThreeColMid 1 (3/100) (1/2) ||| Full
     where
-        tiled = avoidStruts $ smartBorders $ Tall nmaster delta tiled_ratio
+        tiled = Tall nmaster delta tiled_ratio
         nmaster = 1
         delta = 3/100
         tiled_ratio = 1/2
-        full = noBorders $ fullscreenFull $ Full
 
 
 myMouseBindings (XConfig {XMonad.modMask = modMask}) = M.fromList $
@@ -138,26 +132,30 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   ----------------------------------------------------------------------
   -- SUPER + FUNCTION KEYS
 
-  [ ((modMask, xK_b), spawn $ "firefox" )
-  , ((modMask, xK_c), spawn $ "code" )
-  , ((modMask, xK_d), spawn $ "rofi -show drun" )
-  , ((modMask, xK_e ), spawn $ "thunar")
+  [ ((modMask, xK_e), spawn $ "atom" )
+  , ((modMask, xK_c), spawn $ "conky-toggle" )
   , ((modMask, xK_f), sendMessage $ Toggle NBFULL)
-  , ((modMask, xK_p ), spawn $ "pycharm")
+  , ((modMask, xK_h), spawn $ "urxvt 'htop task manager' -e htop" )
+  , ((modMask, xK_m), spawn $ "pragha" )
   , ((modMask, xK_q), kill )
   , ((modMask, xK_r), spawn $ "rofi-theme-selector" )
-  , ((modMask, xK_t), spawn $ myTerm)
+  , ((modMask, xK_t), spawn $ "urxvt" )
   , ((modMask, xK_v), spawn $ "pavucontrol" )
   , ((modMask, xK_y), spawn $ "polybar-msg cmd toggle" )
   , ((modMask, xK_x), spawn $ "arcolinux-logout" )
-  , ((modMask, xK_z), spawn $ "zoom" )
   , ((modMask, xK_Escape), spawn $ "xkill" )
-  , ((modMask, xK_Return), spawn $ myTerm)
+  , ((modMask, xK_Return), spawn $ "urxvt" )
+  , ((modMask, xK_F1), spawn $ "vivaldi-stable" )
+  , ((modMask, xK_F2), spawn $ "atom" )
+  , ((modMask, xK_F3), spawn $ "inkscape" )
+  , ((modMask, xK_F4), spawn $ "gimp" )
+  , ((modMask, xK_F5), spawn $ "meld" )
   , ((modMask, xK_F6), spawn $ "vlc --video-on-top" )
   , ((modMask, xK_F7), spawn $ "virtualbox" )
   , ((modMask, xK_F8), spawn $ "thunar" )
   , ((modMask, xK_F9), spawn $ "evolution" )
-  , ((modMask, xK_F11), spawn $ "rofi -show drun -fullscreen" )
+  , ((modMask, xK_F10), spawn $ "spotify" )
+  , ((modMask, xK_F11), spawn $ "rofi -theme-str 'window {width: 100%;height: 100%;}' -show drun" )
   , ((modMask, xK_F12), spawn $ "rofi -show drun" )
 
   -- FUNCTION KEYS
@@ -169,15 +167,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask .|. shiftMask , xK_d ), spawn $ "dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'")
   , ((modMask .|. shiftMask , xK_r ), spawn $ "xmonad --recompile && xmonad --restart")
   , ((modMask .|. shiftMask , xK_q ), kill)
-  , ((modMask .|. shiftMask , xK_s ), spawn $ "~/.xmonad/scripts/toggle_suspend.sh")
-  , ((modMask .|. shiftMask , xK_m ), spawn $ "~/.xmonad/scripts/desktop.sh && xmonad --restart")
-  , ((modMask .|. shiftMask , xK_n ), spawn $ "~/.xmonad/scripts/laptop.sh && xmonad --restart")
   -- , ((modMask .|. shiftMask , xK_x ), io (exitWith ExitSuccess))
-
-  -- SUPER + CONTROL KEYS
-
-  , ((modMask .|. controlMask , xK_s ), spawn $ "~/.xmonad/scripts/suspend.sh")
-
 
   -- CONTROL + ALT KEYS
 
@@ -234,7 +224,6 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((0, xK_Print), spawn $ "scrot 'ArcoLinux-%Y-%m-%d-%s_screenshot_$wx$h.jpg' -e 'mv $f $$(xdg-user-dir PICTURES)'")
   , ((controlMask, xK_Print), spawn $ "xfce4-screenshooter" )
   , ((controlMask .|. shiftMask , xK_Print ), spawn $ "gnome-screenshot -i")
-  , ((modMask .|. shiftMask , xK_p ), spawn $ "gnome-screenshot -i")
 
 
   --MULTIMEDIA KEYS
@@ -293,7 +282,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_k), windows W.focusUp  )
 
   -- Move focus to the master window.
-  , ((modMask, xK_h), windows W.focusMaster  )
+  , ((modMask .|. shiftMask, xK_m), windows W.focusMaster  )
 
   -- Swap the focused window with the next window.
   , ((modMask .|. shiftMask, xK_j), windows W.swapDown  )
@@ -308,10 +297,10 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((controlMask .|. modMask, xK_Up), windows W.swapUp  )
 
   -- Shrink the master area.
-  , ((modMask .|. shiftMask , xK_h), sendMessage Shrink)
+  , ((controlMask .|. shiftMask , xK_h), sendMessage Shrink)
 
   -- Expand the master area.
-  , ((modMask .|. shiftMask , xK_l), sendMessage Expand)
+  , ((controlMask .|. shiftMask , xK_l), sendMessage Expand)
 
   -- Push window back into tiling.
   , ((controlMask .|. shiftMask , xK_t), withFocused $ windows . W.sink)
@@ -340,32 +329,14 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   -- | (i, k) <- zip (XMonad.workspaces conf) [xK_ampersand, xK_eacute, xK_quotedbl, xK_apostrophe, xK_parenleft, xK_section, xK_egrave, xK_exclam, xK_ccedilla, xK_agrave]
 
       , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)
-    --   , (f, m) <- [(W.shift, 0), (W.shift, controlMask)
       , (\i -> W.greedyView i . W.shift i, shiftMask)]]
 
   ++
   -- ctrl-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
   -- ctrl-shift-{w,e,r}, Move client to screen 1, 2, or 3
-  [((m .|. modMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
-      | (key, sc) <- zip [xK_comma, xK_period] [0..]
+  [((m .|. controlMask, key), screenWorkspace sc >>= flip whenJust (windows . f))
+      | (key, sc) <- zip [xK_w, xK_e] [0..]
       , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
-
-
-addNETSupported :: Atom -> X ()
-addNETSupported x   = withDisplay $ \dpy -> do
-    r               <- asks theRoot
-    a_NET_SUPPORTED <- getAtom "_NET_SUPPORTED"
-    a               <- getAtom "ATOM"
-    liftIO $ do
-       sup <- (join . maybeToList) <$> getWindowProperty32 dpy a_NET_SUPPORTED r
-       when (fromIntegral x `notElem` sup) $
-         changeProperty32 dpy r a_NET_SUPPORTED a propModeAppend [fromIntegral x]
-
-addEWMHFullscreen :: X ()
-addEWMHFullscreen   = do
-    wms <- getAtom "_NET_WM_STATE"
-    wfs <- getAtom "_NET_WM_STATE_FULLSCREEN"
-    mapM_ addNETSupported [wms, wfs]
 
 
 main :: IO ()
@@ -386,7 +357,7 @@ main = do
   --Belgian Azerty users use this line
             --myBaseConfig { keys = belgianKeys <+> keys belgianConfig }
 
-                {startupHook = myStartupHook >> addEWMHFullscreen
+                {startupHook = myStartupHook
 , layoutHook = gaps [(U,35), (D,5), (R,5), (L,5)] $ myLayout ||| layoutHook myBaseConfig
 , manageHook = manageSpawn <+> myManageHook <+> manageHook myBaseConfig
 , modMask = myModMask
