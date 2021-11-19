@@ -33,4 +33,7 @@ alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacma
 # dotfiles repo
 alias dotgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
+# detect audio
+alias speaker='pulseaudio -k && pactl load-module module-detect && pactl set-default-sink alsa_output.usb-Generic_USB_Audio_200901010001-00.HiFi__hw_Dock_1__sink'
+
 starship init fish | source
