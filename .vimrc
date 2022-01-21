@@ -12,7 +12,6 @@ Plugin 'VundleVim/Vundle.vim'
 
 " My plugins
 Plugin 'morhetz/gruvbox'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'bling/vim-bufferline'

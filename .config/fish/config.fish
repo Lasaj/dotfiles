@@ -19,6 +19,7 @@ alias l.="ls -A | egrep '^\.'"
 
 # uni workflows
 alias uni="cd /home/rick/Documents/BCompSc"
+alias emaim="cd /home/rick/Documents/BCompSc/emaim/code"
 # alias buuni="sudo cp -r /home/rick/Documents/BCompSc /home/rick/NAS/Rick/Documents/BCompSc"
 alias buuni='rsync -aPzv --delete --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.3:/volume1/Rick/Documents/BCompSc/Current'
 alias moss='TERM=xterm-256color ssh s4012681@remote.labs.eait.uq.edu.au'
@@ -26,7 +27,7 @@ alias unet='cd ~/Documents/BCompSc/COMP3710/report/PatternFlow/recognition/s4012
 
 # pacman and paru
 alias upall="paru -Syu --noconfirm"
-alias pacman='sudo pacman --color auto'
+# alias pacman='sudo pacman --color auto'
 alias update='sudo pacman -Syyu'
 alias mirror="sudo reflector -f 30 -l 30 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
 

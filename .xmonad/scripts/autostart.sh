@@ -35,8 +35,8 @@ xsetroot -cursor_name left_ptr &
 
 #starting utility applications at boot time
 run redshift &
-run xautolock -time 10 -locker /home/rick/.config/qtile/scripts/suspend.sh &
-run variety &
+run xautolock -time 10 -locker /home/rick/.xmonad/scripts/suspend.sh &
+run nitrogen --restore &
 run nm-applet &
 run pamac-tray &
 run xfce4-power-manager &
@@ -46,6 +46,7 @@ blueberry-tray &
 picom --config $HOME/.xmonad/scripts/picom.conf &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
+trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282828  --height 26 &
 
 #starting user applications at boot time
 #nitrogen --restore &

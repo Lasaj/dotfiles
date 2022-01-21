@@ -62,7 +62,8 @@ colours = [
     ]
 
 myStartupHook = do
-    spawn "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282828  --height 26 &"
+    spawn "killall trayer &"
+    -- spawn "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282828  --height 26 &"
     spawn "$HOME/.xmonad/scripts/autostart.sh"
     setWMName "LG3D"
 
@@ -84,7 +85,7 @@ myFocusFollowsMouse = True
 myBorderWidth = 2
 -- myWorkspaces    = ["\61612","\61899","\61947","\61635","\61502","\61501","\61705","\61564","\62150","\61872"]
 --myWorkspaces    = ["1","2","3","4","5","6","7","8","9","10"]
-myWorkspaces    = ["LTOP", "DESK", "CHAT", "CODE", "MAIL", "VDEO", "MSIC", "JUNK", "HIDE", "VOLM"]
+myWorkspaces    = ["LTOP", "DESK", "CHAT", "CODE", "MAIL", "RMTE", "MSIC", "JUNK", "HIDE", "VOLM"]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 clickable ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
