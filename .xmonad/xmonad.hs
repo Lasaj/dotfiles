@@ -272,10 +272,10 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((0, xF86XK_AudioRaiseVolume), spawn $ "amixer -q set Master 5%+")
 
   -- Increase brightness
-  , ((0, xF86XK_MonBrightnessUp),  spawn $ "xbacklight -inc 5")
+  , ((0, xF86XK_MonBrightnessUp),  spawn $ "light -A 5")
 
   -- Decrease brightness
-  , ((0, xF86XK_MonBrightnessDown), spawn $ "xbacklight -dec 5")
+  , ((0, xF86XK_MonBrightnessDown), spawn $ "light -U 5")
 
 --  , ((0, xF86XK_AudioPlay), spawn $ "mpc toggle")
 --  , ((0, xF86XK_AudioNext), spawn $ "mpc next")

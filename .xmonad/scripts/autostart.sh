@@ -34,7 +34,7 @@ xsetroot -cursor_name left_ptr &
 # (conky -c $HOME/.xmonad/scripts/system-overview) &
 
 #starting utility applications at boot time
-run redshift &
+run redshift -l -27.46794:153.02809 &
 run xautolock -time 10 -locker /home/rick/.xmonad/scripts/suspend.sh &
 run nitrogen --restore &
 run nm-applet &

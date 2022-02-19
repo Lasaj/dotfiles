@@ -19,7 +19,7 @@ alias l.="ls -A | egrep '^\.'"
 
 # uni workflows
 alias uni="cd /home/rick/Documents/BCompSc"
-alias emaim="cd /home/rick/Documents/BCompSc/emaim/code"
+alias emaim="cd /home/rick/Documents/BCompSc/emaim/emaim"
 # alias buuni="sudo cp -r /home/rick/Documents/BCompSc /home/rick/NAS/Rick/Documents/BCompSc"
 alias buuni='rsync -aPzv --delete --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.3:/volume1/Rick/Documents/BCompSc/Current'
 alias moss='TERM=xterm-256color ssh s4012681@remote.labs.eait.uq.edu.au'
@@ -36,5 +36,7 @@ alias dotgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # detect audio
 alias speaker='pulseaudio -k && pactl load-module module-detect && pactl set-default-sink alsa_output.usb-Generic_USB_Audio_200901010001-00.HiFi__hw_Dock_1__sink'
+
+alias xclip="xclip -selection c" 
 
 starship init fish | source
