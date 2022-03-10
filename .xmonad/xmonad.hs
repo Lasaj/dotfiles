@@ -125,7 +125,7 @@ myManageHook = composeAll . concat $
     -- my5Shifts = ["Gimp", "feh"]
     -- my6Shifts = ["vlc", "mpv"]
     -- my7Shifts = ["Virtualbox"]
-    -- my8Shifts = ["Thunar"]
+    -- my8Shifts = ["nautilus"]
     -- my9Shifts = []
     -- my10Shifts = ["discord"]
 
@@ -164,7 +164,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   [ ((modMask, xK_b), spawn $ "firefox" )
   , ((modMask, xK_c), spawn $ "code" )
   , ((modMask, xK_d), spawn $ "rofi -show drun" )
-  , ((modMask, xK_e ), spawn $ "thunar")
+  , ((modMask, xK_e ), spawn $ "nautilus")
   , ((modMask, xK_f), sendMessage $ Toggle NBFULL)
   , ((modMask, xK_p ), spawn $ "pycharm")
   , ((modMask, xK_q), kill )
@@ -178,7 +178,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_Return), spawn $ myTerm)
   , ((modMask, xK_F6), spawn $ "vlc --video-on-top" )
   , ((modMask, xK_F7), spawn $ "virtualbox" )
-  , ((modMask, xK_F8), spawn $ "thunar" )
+  , ((modMask, xK_F8), spawn $ "nautilus" )
   , ((modMask, xK_F9), spawn $ "evolution" )
   , ((modMask, xK_F11), spawn $ "rofi -show drun -fullscreen" )
   , ((modMask, xK_F12), spawn $ "rofi -show drun" )
@@ -188,7 +188,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
   -- SUPER + SHIFT KEYS
 
-  , ((modMask .|. shiftMask , xK_Return ), spawn $ "thunar")
+  , ((modMask .|. shiftMask , xK_Return ), spawn $ "nautilus")
   , ((modMask .|. shiftMask , xK_d ), spawn $ "dmenu_run -i -nb '#191919' -nf '#fea63c' -sb '#fea63c' -sf '#191919' -fn 'NotoMonoRegular:bold:pixelsize=14'")
   , ((modMask .|. shiftMask , xK_r ), spawn $ "xmonad --recompile && xmonad --restart")
   , ((modMask .|. shiftMask , xK_q ), kill)
@@ -207,7 +207,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((controlMask .|. mod1Mask , xK_Next ), spawn $ "conky-rotate -n")
   , ((controlMask .|. mod1Mask , xK_Prior ), spawn $ "conky-rotate -p")
   , ((controlMask .|. mod1Mask , xK_a ), spawn $ "xfce4-appfinder")
-  , ((controlMask .|. mod1Mask , xK_b ), spawn $ "thunar")
+  , ((controlMask .|. mod1Mask , xK_b ), spawn $ "nautilus")
   , ((controlMask .|. mod1Mask , xK_c ), spawn $ "catfish")
   , ((controlMask .|. mod1Mask , xK_e ), spawn $ "arcolinux-tweak-tool")
   , ((controlMask .|. mod1Mask , xK_f ), spawn $ "firefox")
