@@ -42,6 +42,8 @@ run nm-applet &
 run pamac-tray &
 run xfce4-power-manager &
 run volumeicon &
+run  xscreensaver -nosplash &
+run /home/rick/.xmonad/scripts/lightsOn.sh &
 numlockx on &
 blueberry-tray &
 picom --config $HOME/.xmonad/scripts/picom.conf &
