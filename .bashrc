@@ -218,6 +218,8 @@ alias matlab="env MESA_LOADER_DRIVER_OVERRIDE=i965 matlab -desktop -nosplash &"
 alias buuni='rsync -aPzv --delete --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.3:/volume1/Rick/Documents/BCompSc/Current'
 alias weka="/usr/local/weka-3-8-6/weka.sh"
 
+alias xclip="xclip -selection c"
+
 alias dotgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # # ex = EXtractor for all kinds of archives
