@@ -11,11 +11,11 @@ end
 # aliases
 
 #list
-alias ls='ls --color=auto'
-alias la='ls -a'
-alias ll='ls -la'
-alias l='ls'
-alias l.="ls -A | egrep '^\.'"
+alias ls='exa --color=auto'
+alias la='exa -a'
+alias ll='exa -la'
+alias l='exa'
+alias l.="exa -A | egrep '^\.'"
 
 # uni workflows
 alias uni="cd /home/rick/Documents/BCompSc"
