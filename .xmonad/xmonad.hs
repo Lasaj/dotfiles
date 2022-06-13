@@ -7,14 +7,14 @@ import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers(doFullFloat, doCenterFloat, isFullscreen, isDialog)
+import XMonad.Hooks.UrgencyHook
 import XMonad.Config.Desktop
 import XMonad.Config.Azerty
 import XMonad.Util.Run(spawnPipe)
-import XMonad.Actions.SpawnOn
+import XMonad.Util.SpawnOnce
 import XMonad.Util.EZConfig (additionalKeys, additionalMouseBindings)
+import XMonad.Actions.SpawnOn
 import XMonad.Actions.CycleWS
-import XMonad.Hooks.UrgencyHook
-import qualified Codec.Binary.UTF8.String as UTF8
 
 import XMonad.Layout.Spacing
 import XMonad.Layout.Gaps
@@ -27,19 +27,17 @@ import XMonad.Layout.ThreeColumns
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.IndependentScreens
-
-
 import XMonad.Layout.CenteredMaster(centerMaster)
 
 import Graphics.X11.ExtraTypes.XF86
+import Control.Monad ( liftM2, forM_, join, liftM, when, (>=>) )
+import Data.Maybe (maybeToList, fromJust)
+import qualified Codec.Binary.UTF8.String as UTF8
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 import qualified Data.ByteString as B
-import Control.Monad ( liftM2, forM_, join, liftM, when, (>=>) )
 import qualified DBus as D
 import qualified DBus.Client as D
-import Data.Maybe (maybeToList, fromJust)
-import XMonad.Util.SpawnOnce
 
 myTerm = "alacritty"
 myBrowser = "firefox"
@@ -150,6 +148,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_r), spawn "rofi-theme-selector" )
   , ((modMask, xK_t), spawn myTerm)
   , ((modMask, xK_v), spawn "pavucontrol" )
+  , ((modMask, xK_w), spawn "emacsclient -c -a 'emacs'" )
   , ((modMask, xK_y), spawn "polybar-msg cmd toggle" )
   , ((modMask, xK_x), spawn "archlinux-logout" )
   , ((modMask, xK_z), spawn "zoom" )

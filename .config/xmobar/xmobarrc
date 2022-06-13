@@ -46,5 +46,5 @@ Config { font            = "xft:Ubuntu:pixelsize=16:antialias=true:hinting=true"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "    %UnsafeStdinReader% }{ <box type=Bottom width=2 mb=2 color=#d79921><fc=#ebdbb2><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#b16286><fc=#ebdbb2><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#458588><fc=#ebdbb2><action=`alacritty -e htop`>%date%</action></fc></box> %trayerpad%"
+       , template = "    %UnsafeStdinReader% }{ <box type=Bottom width=2 mb=2 color=#d79921><fc=#ebdbb2><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#b16286><fc=#ebdbb2><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#458588><fc=#ebdbb2><action=`emacsclient -c -a 'emacs' ~/Documents/org/agenda.org`>%date%</action></fc></box> %trayerpad%"
        }
