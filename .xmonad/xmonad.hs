@@ -371,13 +371,13 @@ main = do
         [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
 
 
-    xmonad . ewmh $ myBaseConfig
+    xmonad . ewmhFullscreen . ewmh $ myBaseConfig
         { startupHook = myStartupHook >> addEWMHFullscreen
         , layoutHook = gaps [(U,35), (D,5), (R,5), (L,5)] $ myLayout ||| layoutHook myBaseConfig
         , manageHook = manageSpawn <+> myManageHook <+> manageHook myBaseConfig
         , modMask = myModMask
         , borderWidth = myBorderWidth
-        , handleEventHook    = handleEventHook myBaseConfig <+> fullscreenEventHook
+        , handleEventHook    = handleEventHook myBaseConfig -- <+> ewmhFullscreen
         , focusFollowsMouse = myFocusFollowsMouse
         , workspaces = myWorkspaces
         , focusedBorderColor = focdBord
