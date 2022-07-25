@@ -2,8 +2,7 @@
 
 Config { font            = "xft:Ubuntu:pixelsize=16:antialias=true:hinting=true"
        , additionalFonts = [ "xft:Mononoki:pixelsize=14:antialias=true:hinting=true"
-                           , "xft:Font Awesome 5 Free Solid:pixelsize=14"
-                           , "xft:Font Awesome 5 Brands:pixelsize=14"
+                           , "xft:FontAwesome:pixelsize=14"
                            ]
        , bgColor      = "#282828"
        , fgColor      = "#a89984"

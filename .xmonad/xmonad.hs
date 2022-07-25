@@ -39,7 +39,8 @@ import qualified Data.ByteString as B
 import qualified DBus as D
 import qualified DBus.Client as D
 
-myTerm = "alacritty"
+-- myTerm = "alacritty"
+myTerm = "gnome-terminal"
 myBrowser = "firefox"
 myFileMan = "nautilus"
 
@@ -143,7 +144,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask, xK_d), spawn "rofi -show drun" )
   , ((modMask, xK_e ), spawn myFileMan)
   , ((modMask, xK_f), sendMessage $ Toggle NBFULL)
-  , ((modMask, xK_p ), spawn "pycharm")
+  , ((modMask, xK_p ), spawn "pycharm-professional")
   , ((modMask, xK_q), kill )
   , ((modMask, xK_r), spawn "rofi-theme-selector" )
   , ((modMask, xK_t), spawn myTerm)
@@ -173,7 +174,7 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((modMask .|. shiftMask , xK_s ), spawn "~/.xmonad/scripts/toggle_suspend.sh")
   , ((modMask .|. shiftMask , xK_m ), spawn "~/.xmonad/scripts/desktop.sh && xmonad --restart")
   , ((modMask .|. shiftMask , xK_n ), spawn "~/.xmonad/scripts/laptop.sh && xmonad --restart")
-  -- , ((modMask .|. shiftMask , xK_x ), io (exitWith ExitSuccess))
+  , ((modMask .|. shiftMask , xK_x ), io (exitWith ExitSuccess))
 
   -- SUPER + CONTROL KEYS
 
@@ -250,10 +251,10 @@ myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
   , ((0, xF86XK_AudioRaiseVolume), spawn "amixer -q set Master 5%+")
 
   -- Increase brightness
-  , ((0, xF86XK_MonBrightnessUp),  spawn "light -A 5")
+  , ((0, xF86XK_MonBrightnessUp),  spawn "xbacklight +10")
 
   -- Decrease brightness
-  , ((0, xF86XK_MonBrightnessDown), spawn "light -U 5")
+  , ((0, xF86XK_MonBrightnessDown), spawn "xbacklight -10")
 
 --  , ((0, xF86XK_AudioPlay), spawn $ "mpc toggle")
 --  , ((0, xF86XK_AudioNext), spawn $ "mpc next")
@@ -371,13 +372,15 @@ main = do
         [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
 
 
-    xmonad . ewmhFullscreen . ewmh $ myBaseConfig
+    -- xmonad . ewmhFullscreen . ewmh $ myBaseConfig
+    xmonad . ewmh $ myBaseConfig
         { startupHook = myStartupHook >> addEWMHFullscreen
         , layoutHook = gaps [(U,35), (D,5), (R,5), (L,5)] $ myLayout ||| layoutHook myBaseConfig
         , manageHook = manageSpawn <+> myManageHook <+> manageHook myBaseConfig
         , modMask = myModMask
         , borderWidth = myBorderWidth
-        , handleEventHook    = handleEventHook myBaseConfig -- <+> ewmhFullscreen
+        -- , handleEventHook    = handleEventHook myBaseConfig -- <+> fullscreenEventHook
+        , handleEventHook    = handleEventHook myBaseConfig <+> fullscreenEventHook
         , focusFollowsMouse = myFocusFollowsMouse
         , workspaces = myWorkspaces
         , focusedBorderColor = focdBord

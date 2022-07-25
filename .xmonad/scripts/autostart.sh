@@ -36,11 +36,12 @@ xsetroot -cursor_name left_ptr &
 #starting utility applications at boot time
 run redshift -l -27.46794:153.02809 &
 # run xautolock -time 10 -locker /home/rick/.xmonad/scripts/suspend.sh &
-run /home/rick/.xmonad/scripts/toggle_suspend.sh &
+# run /home/rick/.xmonad/scripts/toggle_suspend.sh &
 run nitrogen --restore &
 run nm-applet &
-run pamac-tray &
+# run pamac-tray &
 run xfce4-power-manager &
+run xfce4-screensaver &
 run volumeicon &
 run  xscreensaver -nosplash &
 run /home/rick/.xmonad/scripts/lightsOn.sh &
@@ -50,7 +51,8 @@ picom --config $HOME/.xmonad/scripts/picom.conf &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
 trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x282828  --height 26 &
-/usr/bin/emacs --daemon &
+# /usr/bin/emacs --daemon &
+xinput set-prop "ELAN067B:00 04F3:31F8 Touchpad" "libinput Tapping Enabled" 1 &
 
 #starting user applications at boot time
 #nitrogen --restore &

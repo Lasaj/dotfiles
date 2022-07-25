@@ -114,7 +114,8 @@ alias update='sudo pacman -Syyu'
 
 # yay as aur helper - updates everything
 alias pksyua="yay -Syu --noconfirm"
-alias upall="yay -Syu --noconfirm"
+# alias upall="yay -Syu --noconfirm"
+alias upall="sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y"
 
 #ps
 alias psa="ps auxf"
