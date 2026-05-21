@@ -48,6 +48,7 @@ set cursorline
 set backspace=indent,eol,start
 
 syntax on
+au BufReadPost *.fish set syntax=conf
 
 " case insensitive search
 set ignorecase
