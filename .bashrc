@@ -105,3 +105,6 @@ fi
 export PATH="/home/rick/.local/bin:$PATH"
 export BROWSER=firefox
 
+# Enable Starship prompt
+eval "$(starship init bash)"
+
