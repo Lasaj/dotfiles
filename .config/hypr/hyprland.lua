@@ -16,7 +16,7 @@ hl.monitor({
 ---------------------
 local terminal    = "kitty"
 local fileManager = "nautilus"
-local menu        = "wofi --show drun"
+local menu        = "fuzzel"
 local browser     = "firefox"
 local editor      = "code"
 local notes       = "obsidian"
@@ -35,8 +35,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("gammastep -l -27.46794:153.02809")
     hl.exec_cmd("nm-applet")
     hl.exec_cmd("blueman-applet")
-    hl.exec_cmd("python3 /home/rick/.config/waybar/hyprland_proxy.py")
-    hl.exec_cmd("env HYPRLAND_INSTANCE_SIGNATURE=waybar_proxy waybar")
+    hl.exec_cmd("waybar")
 end)
 
 -------------------------------
