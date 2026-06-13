@@ -61,7 +61,11 @@ highlight ColorColumn ctermbg=0 guibg=lightgrey
 " setup for gruvbox
 set t_Co=256
 set background=dark
-colorscheme gruvbox
+try
+  colorscheme gruvbox
+catch /^Vim\%((\a\+)\)\=:E185/
+  colorscheme default
+endtry
 highlight normal ctermbg = NONE
 " let g:gruvbox_contrast_dark = 'soft'
 
