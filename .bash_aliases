@@ -96,3 +96,17 @@ alias bash_com_l='fabric -sp bash_com -m gemma3:4b'
 alias bashcom='f() { echo "$1" | fabric -sp bash_com; }; f'
 
 alias ilu='signal-cli send -m "I love you, Lan-Lan" +61413840044'
+
+# --- Quality of Life (QoL) Aliases ---
+
+# Syntax Highlighted cat / preview (using batcat)
+alias cat='batcat --style=plain --paging=never'
+alias preview='batcat'
+
+# Use ripgrep by default instead of standard grep
+alias grep='rg'
+
+# Quick directory navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'

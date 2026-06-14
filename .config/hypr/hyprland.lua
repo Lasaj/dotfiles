@@ -56,11 +56,11 @@ hl.env("XDG_SESSION_DESKTOP", "Hyprland")
 -----------------------
 hl.config({
     general = {
-        gaps_in     = 5,
-        gaps_out    = 5,
+        gaps_in     = 6,
+        gaps_out    = 8,
         border_size = 2,
         col = {
-            active_border   = { colors = {"rgba(458588ee)", "rgba(83a598ee)"}, angle = 45 },
+            active_border   = { colors = {"rgba(458588ff)", "rgba(8ec07cff)"}, angle = 45 },
             inactive_border = "rgba(504945aa)",
         },
         resize_on_border = false,
@@ -69,7 +69,7 @@ hl.config({
     },
 
     decoration = {
-        rounding         = 1,
+        rounding         = 10,
         active_opacity   = 1.0,
         inactive_opacity = 1.0,
         shadow = {
@@ -79,10 +79,12 @@ hl.config({
             color        = "rgba(1a1a1aee)",
         },
         blur = {
-            enabled  = true,
-            size     = 3,
-            passes   = 3,
-            vibrancy = 0.1696,
+            enabled           = true,
+            size              = 8,
+            passes            = 4,
+            new_optimizations = true,
+            ignore_opacity    = true,
+            vibrancy          = 0.2,
         },
     },
 
@@ -180,6 +182,7 @@ hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("killall hyprpaper; hyprpaper"))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("/home/rick/.config/hypr/toggle_vpn.sh"))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"))
+hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
 
 -- Move focus with mainMod + vim keys
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))

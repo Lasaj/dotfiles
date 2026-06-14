@@ -53,6 +53,19 @@ au BufReadPost *.fish set syntax=conf
 " case insensitive search
 set ignorecase
 set smartcase
+" Highlight search matches and search incrementally
+set hlsearch
+set incsearch
+" Press Esc Esc to clear search highlight
+nnoremap <esc><esc> :silent! noh<cr>
+
+" Share Vim clipboard with system clipboard
+set clipboard=unnamedplus
+
+" Enable persistent undo across sessions
+set undofile
+set undodir=~/.vim/undodir
+
 
 " highlight column 80
 set colorcolumn=80
