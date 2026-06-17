@@ -23,7 +23,6 @@ window#waybar.hidden {
 #window,
 #clock,
 #network,
-#pulseaudio,
 #custom-weather,
 #tray,
 #idle_inhibitor,
@@ -41,7 +40,6 @@ window#waybar.hidden {
 /* Hover effects for modules to make it feel alive */
 #clock:hover,
 #network:hover,
-#pulseaudio:hover,
 #custom-weather:hover,
 #idle_inhibitor:hover,
 #hardware:hover,
@@ -88,7 +86,7 @@ window#waybar.hidden {
 }
 
 /* Submap mode indicator */
-#mode {
+#submap {
   background-color: #d79921;
   color: #282828;
   border-radius: 12px;

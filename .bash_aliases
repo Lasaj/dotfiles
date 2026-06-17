@@ -3,7 +3,7 @@ alias ls='ls --color=auto'
 alias la='ls -a'
 alias ll='ls -la'
 alias l='ls'
-alias l.="ls -A | egrep '^\.'"
+alias l.="ls -A | rg '^\.'"
 
 #fix obvious typo's
 alias cd..='cd ..'
@@ -20,8 +20,6 @@ alias df='df -h'
 #free
 alias free="free -mt"
 
-#use all cores
-alias uac="sh ~/.bin/main/000*"
 
 #continue download
 alias wget="wget -c"
@@ -45,8 +43,6 @@ alias zyinfo="zypper info"
 alias psa="ps auxf"
 alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
 
-#grub update
-alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 
 #add new fonts
 alias update-fc='sudo fc-cache -fv'
@@ -86,11 +82,9 @@ alias sr="sudo reboot"
 
 #Uni programs and aliases
 alias uni='cd ~/Documents/BCompSc/'
-alias matlab="env MESA_LOADER_DRIVER_OVERRIDE=i965 matlab -desktop -nosplash &"
 alias unsafe_buuni='rsync -aPzv --delete --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current'
 alias buuni='rsync -aPzv --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current'
 alias os_buuni='rsync -aPzv --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@bokonon-nas:/volume1/Rick/Documents/BCompSc/Current'
-alias weka="/usr/local/weka-3-8-6/weka.sh"
 
 alias xclip="xclip -selection c"
 
@@ -98,13 +92,6 @@ alias dotgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias dotlazy='lazygit --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 alias doro='python3 /home/rick/Documents/playground/antidoro/main.py uni.json'
-
-alias bash_com='fabric -sp bash_com'
-alias bash_com_l='fabric -sp bash_com -m gemma3:4b'
-
-alias bashcom='f() { echo "$1" | fabric -sp bash_com; }; f'
-
-alias ilu='signal-cli send -m "I love you, Lan-Lan" +61413840044'
 
 # --- Quality of Life (QoL) Aliases ---
 

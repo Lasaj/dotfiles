@@ -102,7 +102,6 @@ fi
 
 
 # Added by Antigravity CLI installer
-export PATH="/home/rick/.local/bin:$PATH"
 export BROWSER=firefox
 
 # Enable Starship prompt
