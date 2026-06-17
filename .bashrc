@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return
 
 export HISTCONTROL=ignoreboth:erasedups
-# export MANPAGER="sh -c 'col -bx | batcat -l man -p'"
+# export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 PS1='[\u@\h \W]\$ '
 

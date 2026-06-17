@@ -27,15 +27,19 @@ local notes       = "obsidian"
 hl.on("hyprland.start", function ()
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
     hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
-    hl.exec_cmd("/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")
+    hl.exec_cmd("systemctl --user start graphical-session.target")
+    hl.exec_cmd("if [ -f /usr/libexec/hyprpolkitagent ]; then /usr/libexec/hyprpolkitagent; elif [ -f /usr/libexec/polkit-gnome-authentication-agent-1 ]; then /usr/libexec/polkit-gnome-authentication-agent-1; fi")
     hl.exec_cmd("swaync")
-    hl.exec_cmd("hyprpaper")
+    hl.exec_cmd("/home/rick/.local/bin/random_wallpaper.sh")
     hl.exec_cmd("hypridle")
     -- hl.exec_cmd("sway-audio-idle-inhibit")
     hl.exec_cmd("gammastep -l -27.46794:153.02809")
     hl.exec_cmd("nm-applet")
     hl.exec_cmd("blueman-applet")
     hl.exec_cmd("waybar")
+    hl.exec_cmd("hyprctl setcursor Adwaita 24")
+    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist store")
 end)
 
 -------------------------------
@@ -43,6 +47,8 @@ end)
 -------------------------------
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("XCURSOR_THEME", "Adwaita")
+hl.env("HYPRCURSOR_THEME", "")
 hl.env("GDK_BACKEND", "wayland,x11,*")
 hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("SDL_VIDEODRIVER", "wayland")
@@ -50,6 +56,7 @@ hl.env("CLUTTER_BACKEND", "wayland")
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("XDG_SESSION_DESKTOP", "Hyprland")
+hl.env("QT_STYLE_OVERRIDE", "kvantum")
 
 -----------------------
 ---- LOOK AND FEEL ----
@@ -118,6 +125,10 @@ hl.config({
     ecosystem = {
         no_update_news = true,
     },
+
+    cursor = {
+        enable_hyprcursor = false,
+    },
 })
 
 hl.gesture({
@@ -161,11 +172,11 @@ hl.animation({ leaf = "workspaces",    enabled = true,  speed = 1.94, bezier = "
 local mainMod = "SUPER"
 
 -- Tiling binds
-hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
-hl.bind(mainMod .. " + Q", hl.dsp.window.close())
-hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + I", hl.dsp.layout("togglesplit"))
+hl.bind(mainMod .. " + T",       hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + Q",       hl.dsp.window.close())
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + P",       hl.dsp.window.pseudo())
+hl.bind(mainMod .. " + I",       hl.dsp.layout("togglesplit"))
 
 -- Power binds
 hl.bind(mainMod .. " + CTRL + S", hl.dsp.exec_cmd("playerctl -a pause; hyprlock & sleep 0.5 && systemctl suspend"))
@@ -179,10 +190,12 @@ hl.bind(mainMod .. " + C",      hl.dsp.exec_cmd(editor))
 hl.bind(mainMod .. " + N",      hl.dsp.exec_cmd(notes))
 hl.bind(mainMod .. " + R",      hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("killall hyprpaper; hyprpaper"))
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("/home/rick/.local/bin/random_wallpaper.sh"))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("/home/rick/.config/hypr/toggle_vpn.sh"))
-hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"))
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && grim -g \"$(slurp)\" - | tee ~/Pictures/Screenshots/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png | wl-copy && notify-send \"Screenshot Captured\" \"Saved to ~/Pictures/Screenshots and copied to clipboard\""))
 hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("/home/rick/.config/hypr/toggle_suspend.sh"))
+hl.bind(mainMod .. " + V",         hl.dsp.exec_cmd("cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"))
 
 -- Move focus with mainMod + vim keys
 hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left" }))
@@ -190,11 +203,18 @@ hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down" }))
 hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up" }))
 
--- Move window with mainMod + shift + vim keys
-hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "left" }))
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ direction = "right" }))
-hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "down" }))
-hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.move({ direction = "up" }))
+-- Swap window with mainMod + shift + vim keys
+hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.swap({ direction = "left" }))
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.swap({ direction = "right" }))
+hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.swap({ direction = "down" }))
+hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.swap({ direction = "up" }))
+
+hl.bind(mainMod .. " + CTRL + L", hl.dsp.window.resize({ x = 10, y = 0, relative = true }), {repeating = true })
+hl.bind(mainMod .. " + CTRL + H", hl.dsp.window.resize({ x = -10, y = 0, relative = true }), {repeating = true })
+hl.bind(mainMod .. " + CTRL + K", hl.dsp.window.resize({ x = 0, y = -10, relative = true }), {repeating = true })
+hl.bind(mainMod .. " + CTRL + J", hl.dsp.window.resize({ x = 0, y = 10, relative = true }), {repeating = true })
+hl.bind(mainMod .. " + CTRL + R", hl.dsp.layout("splitratio 1.0 exact"))
+
 
 -- Switch workspaces / move window / move window silent with mainMod + [0-9]
 for i = 1, 10 do
@@ -250,3 +270,9 @@ hl.window_rule({
     },
     no_focus = true,
 })
+
+-- Float common utility/dialog windows
+hl.window_rule({ match = { class = "^nautilus$", title = "^(Properties|File Operation)$" }, float = true })
+hl.window_rule({ match = { class = "^pavucontrol$" }, float = true })
+hl.window_rule({ match = { class = "^blueman-manager$" }, float = true })
+hl.window_rule({ match = { class = "^nm-connection-editor$" }, float = true })

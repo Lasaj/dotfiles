@@ -31,7 +31,15 @@ alias userlist="cut -d: -f1 /etc/passwd"
 
 #merge new settings
 alias merge="xrdb -merge ~/.Xresources"
-alias upall="sudo apt update && sudo apt upgrade -y && sudo snap refresh && sudo apt autoremove -y"
+alias upall="sudo zypper ref && sudo zypper dup && flatpak update"
+
+# zypper shortcuts
+alias zyin="sudo zypper install"
+alias zyrm="sudo zypper remove"
+alias zyup="sudo zypper update"
+alias zyref="sudo zypper refresh"
+alias zyse="zypper search"
+alias zyinfo="zypper info"
 
 #ps
 alias psa="ps auxf"
@@ -63,8 +71,8 @@ alias yta-wav="yt-dlp --extract-audio --audio-format wav "
 alias ytv-best="yt-dlp -f bestvideo+bestaudio "
 
 #Recent Installed Packages
-alias rip="grep 'installed' /var/log/dpkg.log | sort | tail -200 | nl"
-alias riplong="grep 'installed' /var/log/dpkg.log | sort | tail -3000 | nl"
+alias rip="rpm -qa --last | head -200 | nl"
+alias riplong="rpm -qa --last | head -3000 | nl"
 
 #gpg
 #verify signature for isos
@@ -87,6 +95,7 @@ alias weka="/usr/local/weka-3-8-6/weka.sh"
 alias xclip="xclip -selection c"
 
 alias dotgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias dotlazy='lazygit --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 alias doro='python3 /home/rick/Documents/playground/antidoro/main.py uni.json'
 
@@ -99,9 +108,9 @@ alias ilu='signal-cli send -m "I love you, Lan-Lan" +61413840044'
 
 # --- Quality of Life (QoL) Aliases ---
 
-# Syntax Highlighted cat / preview (using batcat)
-alias cat='batcat --style=plain --paging=never'
-alias preview='batcat'
+# Syntax Highlighted cat / preview (using bat)
+alias cat='bat --style=plain --paging=never'
+alias preview='bat'
 
 # Use ripgrep by default instead of standard grep
 alias grep='rg'
