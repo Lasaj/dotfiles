@@ -15,7 +15,6 @@ echo "alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> $H
 alias dotgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 echo ".cfg" >> .gitignore
 git clone --bare <git-repo-url> $HOME/.cfg
-alias dotgit='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 dotgit checkout
 dotgit config --local status.showUntrackedFiles no
 ```
