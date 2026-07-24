@@ -179,7 +179,7 @@ hl.bind(mainMod .. " + P",       hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + I",       hl.dsp.layout("togglesplit"))
 
 -- Power binds
-hl.bind(mainMod .. " + CTRL + S", hl.dsp.exec_cmd("playerctl -a pause; hyprlock & sleep 0.5 && systemctl suspend"))
+hl.bind(mainMod .. " + CTRL + S", hl.dsp.exec_cmd("playerctl -a pause; loginctl lock-session && sleep 0.5 && systemctl suspend"))
 hl.bind(mainMod .. " + CTRL + X", hl.dsp.exec_cmd("systemctl poweroff"))
 hl.bind(mainMod .. " + CTRL + Z", hl.dsp.exec_cmd("systemctl reboot"))
 
@@ -247,7 +247,7 @@ hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
 
 -- Lid switch
-hl.bind("switch:Lid Switch", hl.dsp.exec_cmd("hyprlock"), { locked = true })
+hl.bind("switch:Lid Switch", hl.dsp.exec_cmd("loginctl lock-session"), { locked = true })
 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----

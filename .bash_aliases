@@ -82,9 +82,8 @@ alias sr="sudo reboot"
 
 #Uni programs and aliases
 alias uni='cd ~/Documents/BCompSc/'
-alias unsafe_buuni='rsync -aPzv --delete --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current'
-alias buuni='rsync -aPzv --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current'
-alias os_buuni='rsync -aPzv --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@bokonon-nas:/volume1/Rick/Documents/BCompSc/Current'
+alias buuni='~/.local/bin/backup_uni.sh'
+alias buuni-list='restic -r sftp:nas:/Rick/Documents/BCompSc_backup --password-file ~/.config/restic/repo_password.txt snapshots'
 
 alias xclip="xclip -selection c"
 
@@ -94,6 +93,7 @@ alias dotlazy='lazygit --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias doro='python3 /home/rick/Documents/playground/antidoro/main.py uni.json'
 
 # --- Quality of Life (QoL) Aliases ---
+alias neofetch='fastfetch'
 
 # Syntax Highlighted cat / preview (using bat)
 alias cat='bat --style=plain --paging=never'
