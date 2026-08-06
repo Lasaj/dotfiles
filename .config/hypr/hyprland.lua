@@ -18,7 +18,7 @@ local terminal    = "kitty"
 local fileManager = "nautilus"
 local menu        = "fuzzel"
 local browser     = "firefox"
-local editor      = "code"
+local editor      = "antigravity-ide"
 local notes       = "obsidian"
 
 -------------------
@@ -36,6 +36,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("gammastep -l -27.46794:153.02809")
     hl.exec_cmd("nm-applet")
     hl.exec_cmd("blueman-applet")
+    hl.exec_cmd("flatpak run com.synology.SynologyDrive autostart")
     hl.exec_cmd("waybar")
     hl.exec_cmd("hyprctl setcursor Adwaita 24")
     hl.exec_cmd("wl-paste --type text --watch cliphist store")

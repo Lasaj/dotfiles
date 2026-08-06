@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+set -e
+
+INSTALL_DIR="$HOME/.local/opt/antigravity-ide"
+BIN_DIR="$HOME/.local/bin"
+DESKTOP_DIR="$HOME/.local/share/applications"
+
+echo "Checking for Antigravity updates..."
+
+# Find latest linux-x64 tar.gz link
+TAR_URL=$(python3 -c "
+import urllib.request, gzip, re
+req = urllib.request.Request('https://antigravity.google/download', headers={'User-Agent': 'Mozilla/5.0', 'Accept-Encoding': 'gzip'})
+try:
+    resp = urllib.request.urlopen(req)
+    data = gzip.decompress(resp.read()).decode('utf-8')
+    m = re.search(r'https://[^\s\"\'\<\>]+linux-x64[^\s\"\'\<\>]*Antigravity%20IDE[^\s\"\'\<\>]*\.tar\.gz', data)
+    if not m:
+        m = re.search(r'https://[^\s\"\'\<\>]+linux-x64[^\s\"\'\<\>]*Antigravity.*IDE[^\s\"\'\<\>]*\.tar\.gz', data)
+    if m:
+        print(m.group(0))
+except Exception:
+    pass
+")
+
+if [ -z "$TAR_URL" ]; then
+    echo "Error: Could not determine latest download URL from https://antigravity.google/download"
+    exit 1
+fi
+
+echo "Latest release download URL: $TAR_URL"
+
+TMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TMP_DIR"' EXIT
+
+echo "Downloading latest Antigravity tarball..."
+curl -L "$TAR_URL" -o "$TMP_DIR/antigravity.tar.gz"
+
+echo "Extracting..."
+mkdir -p "$TMP_DIR/extracted"
+tar -xzf "$TMP_DIR/antigravity.tar.gz" -C "$TMP_DIR/extracted"
+
+# Find extracted folder name
+EXTRACTED_FOLDER=$(find "$TMP_DIR/extracted" -mindepth 1 -maxdepth 1 -type d | head -n 1)
+
+if [ -z "$EXTRACTED_FOLDER" ]; then
+    echo "Error: Extraction failed."
+    exit 1
+fi
+
+echo "Updating installation at $INSTALL_DIR..."
+mkdir -p "$HOME/.local/opt"
+rm -rf "$INSTALL_DIR"
+mv "$EXTRACTED_FOLDER" "$INSTALL_DIR"
+
+mkdir -p "$BIN_DIR"
+if [ -f "$INSTALL_DIR/bin/antigravity-ide" ]; then
+    EXEC_PATH="$INSTALL_DIR/bin/antigravity-ide"
+elif [ -f "$INSTALL_DIR/antigravity" ]; then
+    EXEC_PATH="$INSTALL_DIR/antigravity"
+elif [ -f "$INSTALL_DIR/antigravity-ide" ]; then
+    EXEC_PATH="$INSTALL_DIR/antigravity-ide"
+fi
+
+ln -sf "$EXEC_PATH" "$BIN_DIR/antigravity-ide"
+ln -sf "$EXEC_PATH" "$BIN_DIR/antigravity"
+
+# Icon location
+ICON_PATH=$(find "$INSTALL_DIR" -name "code.png" -o -name "antigravity.png" -o -name "icon.png" 2>/dev/null | head -n 1)
+
+mkdir -p "$DESKTOP_DIR"
+cat << EOF > "$DESKTOP_DIR/antigravity-ide.desktop"
+[Desktop Entry]
+Name=Antigravity IDE
+Comment=AI-first development platform from Google
+Exec=$EXEC_PATH %F
+Icon=${ICON_PATH:-antigravity}
+Type=Application
+StartupNotify=true
+StartupWMClass=antigravity
+Categories=Development;IDE;
+MimeType=text/plain;
+EOF
+
+echo "Antigravity IDE successfully updated"

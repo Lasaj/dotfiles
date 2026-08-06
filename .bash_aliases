@@ -82,9 +82,19 @@ alias sr="sudo reboot"
 
 #Uni programs and aliases
 alias uni='cd ~/Documents/BCompSc/'
+alias pushuni='rsync -aPzv --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current'
+alias pulluni='rsync -aPzv --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current/ /home/rick/Documents/BCompSc/'
 alias unsafe_buuni='rsync -aPzv --delete --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current'
 alias buuni='rsync -aPzv --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current'
 alias os_buuni='rsync -aPzv --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@bokonon-nas:/volume1/Rick/Documents/BCompSc/Current'
+
+# Bidirectional sync (2-pass rsync preserving newer files with -u)
+syncuni() {
+    echo "==> Syncing local -> remote..."
+    rsync -aPzvu --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current/
+    echo "==> Syncing remote -> local..."
+    rsync -aPzvu --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current/ /home/rick/Documents/BCompSc/
+}
 
 alias xclip="xclip -selection c"
 
