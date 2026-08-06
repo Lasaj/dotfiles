@@ -107,3 +107,10 @@ export BROWSER=firefox
 # Enable Starship prompt
 eval "$(starship init bash)"
 
+# Enable zoxide (smarter cd)
+eval "$(zoxide init bash)"
+
+
+
+# Added by Antigravity CLI installer
+export PATH="/home/rick/.local/bin:$PATH"
