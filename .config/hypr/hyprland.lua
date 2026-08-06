@@ -32,6 +32,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("swaync")
     hl.exec_cmd("/home/rick/.local/bin/random_wallpaper.sh")
     hl.exec_cmd("hypridle")
+    hl.exec_cmd("/home/rick/.local/bin/hypr-power-listener.sh")
     -- hl.exec_cmd("sway-audio-idle-inhibit")
     hl.exec_cmd("gammastep -l -27.46794:153.02809")
     hl.exec_cmd("nm-applet")
@@ -81,15 +82,15 @@ hl.config({
         active_opacity   = 1.0,
         inactive_opacity = 1.0,
         shadow = {
-            enabled      = true,
+            enabled      = false,
             range        = 4,
-            render_power = 3,
+            render_power = 1,
             color        = "rgba(1a1a1aee)",
         },
         blur = {
             enabled           = true,
-            size              = 8,
-            passes            = 4,
+            size              = 4,
+            passes            = 1,
             new_optimizations = true,
             ignore_opacity    = true,
             vibrancy          = 0.2,
