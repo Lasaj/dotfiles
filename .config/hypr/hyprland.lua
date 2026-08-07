@@ -150,11 +150,6 @@ hl.gesture({
     action    = "workspace",
 })
 
-hl.device({
-    name        = "epic-mouse-v1",
-    sensitivity = -0.5,
-})
-
 --------------------
 ---- ANIMATIONS ----
 --------------------
@@ -204,10 +199,10 @@ hl.bind(mainMod .. " + N",      hl.dsp.exec_cmd(notes))
 hl.bind(mainMod .. " + R",      hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("random_wallpaper.sh"))
-hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("/home/rick/.config/hypr/toggle_vpn.sh"))
-hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && grim -g \"$(slurp)\" - | tee ~/Pictures/Screenshots/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png | wl-copy && notify-send \"Screenshot Captured\" \"Saved to ~/Pictures/Screenshots and copied to clipboard\""))
+hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("toggle_vpn.sh"))
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("screenshot.sh"))
 hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("/home/rick/.config/hypr/toggle_suspend.sh"))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("toggle_suspend.sh"))
 hl.bind(mainMod .. " + V",         hl.dsp.exec_cmd("cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"))
 
 -- Move focus with mainMod + vim keys
