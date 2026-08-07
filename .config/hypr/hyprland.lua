@@ -25,28 +25,39 @@ local notes       = "obsidian"
 ---- AUTOSTART ----
 -------------------
 hl.on("hyprland.start", function ()
+    -- DBus & Systemd Environment
     hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
     hl.exec_cmd("systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
     hl.exec_cmd("systemctl --user start graphical-session.target")
+
+    -- Polkit Authentication Agent
     hl.exec_cmd("if [ -f /usr/libexec/hyprpolkitagent ]; then /usr/libexec/hyprpolkitagent; elif [ -f /usr/libexec/polkit-gnome-authentication-agent-1 ]; then /usr/libexec/polkit-gnome-authentication-agent-1; fi")
-    hl.exec_cmd("swaync")
-    hl.exec_cmd("/home/rick/.local/bin/random_wallpaper.sh")
-    hl.exec_cmd("hypridle")
-    hl.exec_cmd("/home/rick/.local/bin/hypr-power-listener.sh")
-    -- hl.exec_cmd("sway-audio-idle-inhibit")
-    hl.exec_cmd("gammastep -l -27.46794:153.02809")
-    hl.exec_cmd("nm-applet")
-    hl.exec_cmd("blueman-applet")
+
+    -- UI Stack (Single-instance guarded)
+    hl.exec_cmd("pgrep -x swaync || swaync")
+    hl.exec_cmd("pgrep -x waybar || waybar")
+    hl.exec_cmd("pgrep -x nm-applet || nm-applet")
+    hl.exec_cmd("pgrep -x blueman-applet || blueman-applet")
+
+    -- Wallpaper, Night Light, Power & Idle
+    hl.exec_cmd("random_wallpaper.sh")
+    hl.exec_cmd("pgrep -x hypridle || hypridle")
+    hl.exec_cmd("hypr-power-listener.sh")
+    hl.exec_cmd("pgrep -x gammastep || gammastep -l -27.46794:153.02809")
+
+    -- Applications & Utilities
     hl.exec_cmd("flatpak run com.synology.SynologyDrive autostart")
-    hl.exec_cmd("waybar")
     hl.exec_cmd("hyprctl setcursor Adwaita 24")
-    hl.exec_cmd("wl-paste --type text --watch cliphist store")
-    hl.exec_cmd("wl-paste --type image --watch cliphist store")
+
+    -- Clipboard Manager (Guarded against duplicate watchers)
+    hl.exec_cmd("pgrep -f 'wl-paste --type text' || wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("pgrep -f 'wl-paste --type image' || wl-paste --type image --watch cliphist store")
 end)
 
 -------------------------------
 ---- ENVIRONMENT VARIABLES ----
 -------------------------------
+hl.env("PATH", os.getenv("HOME") .. "/.local/bin:" .. (os.getenv("PATH") or ""))
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("XCURSOR_THEME", "Adwaita")
@@ -192,7 +203,7 @@ hl.bind(mainMod .. " + C",      hl.dsp.exec_cmd(editor))
 hl.bind(mainMod .. " + N",      hl.dsp.exec_cmd(notes))
 hl.bind(mainMod .. " + R",      hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + E",      hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("/home/rick/.local/bin/random_wallpaper.sh"))
+hl.bind(mainMod .. " + SHIFT + W", hl.dsp.exec_cmd("random_wallpaper.sh"))
 hl.bind(mainMod .. " + SHIFT + V", hl.dsp.exec_cmd("/home/rick/.config/hypr/toggle_vpn.sh"))
 hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("mkdir -p ~/Pictures/Screenshots && grim -g \"$(slurp)\" - | tee ~/Pictures/Screenshots/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png | wl-copy && notify-send \"Screenshot Captured\" \"Saved to ~/Pictures/Screenshots and copied to clipboard\""))
 hl.bind(mainMod .. " + SHIFT + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
