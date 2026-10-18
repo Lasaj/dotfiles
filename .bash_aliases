@@ -1,9 +1,18 @@
-#list
-alias ls='ls --color=auto'
-alias la='ls -a'
-alias ll='ls -la'
-alias l='ls'
-alias l.="ls -A | rg '^\.'"
+#list (uses eza with icons & git status if installed, otherwise standard ls)
+if command -v eza >/dev/null 2>&1; then
+    alias ls='eza --color=auto --group-directories-first --icons=auto'
+    alias la='eza -a --color=auto --group-directories-first --icons=auto'
+    alias ll='eza -la --git --color=auto --group-directories-first --icons=auto'
+    alias lt='eza --tree --level=2 --color=auto --icons=auto'
+    alias l='eza --color=auto --group-directories-first --icons=auto'
+    alias l.='eza -d .* --color=auto --icons=auto'
+else
+    alias ls='ls --color=auto'
+    alias la='ls -a'
+    alias ll='ls -la'
+    alias l='ls'
+    alias l.='ls -d .* --color=auto'
+fi
 
 #fix obvious typo's
 alias cd..='cd ..'
@@ -11,8 +20,8 @@ alias pdw="pwd"
 
 ## Colorize the grep command output for ease of use (good for log files)##
 alias grep='grep --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
+alias egrep='grep -E --color=auto'
+alias fgrep='grep -F --color=auto'
 
 #readable output
 alias df='df -h'
@@ -81,20 +90,21 @@ alias ssn="sudo shutdown now"
 alias sr="sudo reboot"
 
 #Uni programs and aliases
+_UNI_RSYNC_EXCLUDES="--exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git"
 alias uni='cd ~/Documents/BCompSc/'
-alias pushuni='rsync -aPzv --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current'
-alias pulluni='rsync -aPzv --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current/ /home/rick/Documents/BCompSc/'
-alias unsafe_buuni='rsync -aPzv --delete --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current'
+alias pushuni="rsync -aPzv $_UNI_RSYNC_EXCLUDES /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current"
+alias pulluni="rsync -aPzv $_UNI_RSYNC_EXCLUDES rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current/ /home/rick/Documents/BCompSc/"
+alias unsafe_buuni="rsync -aPzv --delete $_UNI_RSYNC_EXCLUDES /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current"
 alias buuni='~/.local/bin/backup_uni.sh'
 alias buuni-list='restic -r sftp:nas:/Rick/Documents/BCompSc_backup --password-file ~/.config/restic/repo_password.txt snapshots'
-alias os_buuni='rsync -aPzv --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@bokonon-nas:/volume1/Rick/Documents/BCompSc/Current'
+alias os_buuni="rsync -aPzv $_UNI_RSYNC_EXCLUDES /home/rick/Documents/BCompSc/ rick@bokonon-nas:/volume1/Rick/Documents/BCompSc/Current"
 
 # Bidirectional sync (2-pass rsync preserving newer files with -u)
 syncuni() {
     echo "==> Syncing local -> remote..."
-    rsync -aPzvu --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current/
+    rsync -aPzvu $_UNI_RSYNC_EXCLUDES /home/rick/Documents/BCompSc/ rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current/
     echo "==> Syncing remote -> local..."
-    rsync -aPzvu --exclude .stack-work --exclude venv --exclude .idea --exclude __pycache__ --exclude .git rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current/ /home/rick/Documents/BCompSc/
+    rsync -aPzvu $_UNI_RSYNC_EXCLUDES rick@192.168.86.241:/volume1/Rick/Documents/BCompSc/Current/ /home/rick/Documents/BCompSc/
 }
 
 alias xclip="xclip -selection c"
@@ -111,8 +121,13 @@ alias neofetch='fastfetch'
 alias cat='bat --style=plain --paging=never'
 alias preview='bat'
 
-# Use ripgrep by default instead of standard grep
-alias grep='rg'
+# Kitty terminal & SSH helpers
+if [ "$TERM" = "xterm-kitty" ]; then
+    alias ssh='TERM=xterm-256color command ssh'
+    alias kssh='kitten ssh'
+    alias icat='kitten icat'
+    alias kdiff='kitten diff'
+fi
 
 # Quick directory navigation
 alias ..='cd ..'
